@@ -7,7 +7,7 @@ app.get('/', function (req, res) {
 });
 app.get('/webhook', function(req, res) {
     if (req.query['hub.mode'] === 'subscribe' &&
-        req.query['hub.verify_token'] === process.env.MESSENGER_TOKEN) {
+        req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
       console.log("Validating webhook");
       res.status(200).send(req.query['hub.challenge']);
     } else {
@@ -99,7 +99,7 @@ app.get('/webhook', function(req, res) {
   function callSendAPI(messageData) {
     request({
       uri: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: { access_token: process.env.PAGE_TOKEN },
+      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
       method: 'POST',
       json: messageData
   
