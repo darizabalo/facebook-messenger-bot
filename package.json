@@ -1,0 +1,22 @@
+{
+  "name": "facebook-messenger-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darizabalo/facebook-messenger-bot.git"
+  },
+  "author": "Dario Arizabalo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darizabalo/facebook-messenger-bot/issues"
+  },
+  "homepage": "https://github.com/darizabalo/facebook-messenger-bot#readme",
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
