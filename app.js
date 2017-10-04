@@ -173,21 +173,35 @@ app.get('/webhook', function(req, res) {
   }
   function receivedPostback(event) {
     var senderID = event.sender.id;
-    var sender = JSON.stringify(event.sender);//.id;
     
-    var recipientID = JSON.stringify(event.recipient);//.id;
-    var timeOfPostback = JSON.stringify(event);//.timestamp;
+    var recipientID = event.recipient.id;
+    var timeOfPostback = event.timestamp;
   
     // The 'payload' param is a developer-defined field which is set in a postback 
     // button for Structured Messages. 
-    var payload = JSON.stringify(event.postback);//.payload;
+    var payload = event.postback.payload;
   
     console.log("Received postback for user '%s' and page '%s' with payload '%s' " + 
-      "at '%s'", sender, recipientID, payload, timeOfPostback);
+      "at '%s'", senderID, recipientID, payload, timeOfPostback);
   
     // When a postback is called, we'll send a message back to the sender to 
     // let them know it was successful
-    sendTextMessage(senderID, "Postback called");
+
+    postbackDispatcher(event);
+}
+
+function postbackDispatcher(event) {
+    var payload = event.postback.payload;
+    var senderID = event.sender.id;
+    switch (payload) {
+        case '__init':
+            sendTextMessage(senderID, "{{user_first_name}}, gracias por usar la aplicación.");
+            sendTextMessage(senderID, "¿Qué deseas hacer?");
+          break;
+  
+        default:
+        sendTextMessage(senderID, "Opción no válida.");
+      }    
   }
 
 app.listen(process.env.PORT, function () {
