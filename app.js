@@ -180,8 +180,8 @@ app.get('/webhook', function(req, res) {
     // button for Structured Messages. 
     var payload = JSON.stringify(event.postback);//.payload;
   
-    console.log("Received postback for user %d and page %d with payload '%s' " + 
-      "at %d", senderID, recipientID, payload, timeOfPostback);
+    console.log("Received postback for user '%s' and page '%s' with payload '%s' " + 
+      "at '%s'", senderID, recipientID, payload, timeOfPostback);
   
     // When a postback is called, we'll send a message back to the sender to 
     // let them know it was successful
