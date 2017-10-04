@@ -219,10 +219,14 @@ function postbackDispatcher(event) {
     switch (payload) {
         case '__init':
         callApiFields('first_name,last_name',function(user){
+            let usrO = JSON.parse(user);
             console.info('USER ',user);
             console.info('USER.first_name ',user.first_name);
+            console.info('USERO ',usrO);
+            console.info('USERO.first_name ',usrO.first_name);
             
-            sendTextMessage(senderID, user.first_name +', gracias por usar la aplicación.');
+            
+            sendTextMessage(senderID, usrO.first_name +', gracias por usar la aplicación.');
             sendTextMessage(senderID, '¿Qué deseas hacer?');
         });
             
