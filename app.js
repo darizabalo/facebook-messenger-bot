@@ -175,12 +175,16 @@ app.get('/webhook', function(req, res) {
 
   //first_name,last_name
 
-  function callApiFields(fields, success) {
+  function callApiFields(usr_id, fields, success) {
 
-    let uri = 'https://graph.facebook.com/v2.6/1379428608822819?fields='+fields+'&access_token='+process.env.PAGE_ACCESS_TOKEN;
+    let uri = 'https://graph.facebook.com/v2.6/'+usr_id;
     console.info('URI GET: ' + uri);
     request({
       uri: uri,
+      qs: { 
+          access_token: process.env.PAGE_ACCESS_TOKEN,
+          fields:fields
+        },
       method: 'GET'  
     }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -218,18 +222,11 @@ function postbackDispatcher(event) {
     var senderID = event.sender.id;
     switch (payload) {
         case '__init':
-        callApiFields('first_name,last_name',function(user){
-            let usrO = JSON.parse(user);
-            console.info('USER ',user);
-            console.info('USER.first_name ',user.first_name);
-            console.info('USERO ',usrO);
-            console.info('USERO.first_name ',usrO.first_name);
-            
-            
-            sendTextMessage(senderID, usrO.first_name +', gracias por usar la aplicación.');
-            sendTextMessage(senderID, '¿Qué deseas hacer?');
-        });
-            
+            callApiFields(senderID, 'first_name,last_name',function(user){
+                let usrO = JSON.parse(user);            
+                sendTextMessage(senderID, usrO.first_name +', gracias por usar la aplicación.');
+                sendTextMessage(senderID, '¿Qué deseas hacer?');
+            });
           break;
   
         default:
