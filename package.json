@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/darizabalo/facebook-messenger-bot#readme",
   "dependencies": {
-    "express": "^4.16.1"
+    "express": "^4.16.1",
+    "request": "^2.83.0"
   }
 }
