@@ -46,7 +46,6 @@ app.get('/webhook', function(req, res) {
     }
   });
     
-
   function receivedMessage(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -77,6 +76,41 @@ app.get('/webhook', function(req, res) {
     } else if (messageAttachments) {
       sendTextMessage(senderID, "Message with attachment received");
     }
+  }
+
+  function sendTextMessage(recipientId, messageText) {
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        text: messageText
+      }
+    };
+  
+    callSendAPI(messageData);
+  }
+
+  function callSendAPI(messageData) {
+    request({
+      uri: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: 'POST',
+      json: messageData
+  
+    }, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var recipientId = body.recipient_id;
+        var messageId = body.message_id;
+  
+        console.log("Successfully sent generic message with id %s to recipient %s", 
+          messageId, recipientId);
+      } else {
+        console.error("Unable to send message.");
+        console.error(response);
+        console.error(error);
+      }
+    });  
   }
 
   function sendGenericMessage(recipientId) {
@@ -126,39 +160,21 @@ app.get('/webhook', function(req, res) {
     callSendAPI(messageData);
   }
 
-  function sendTextMessage(recipientId, messageText) {
-    var messageData = {
-      recipient: {
-        id: recipientId
-      },
-      message: {
-        text: messageText
-      }
-    };
+  function receivedPostback(event) {
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
+    var timeOfPostback = event.timestamp;
   
-    callSendAPI(messageData);
-  }
-
-  function callSendAPI(messageData) {
-    request({
-      uri: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-      method: 'POST',
-      json: messageData
+    // The 'payload' param is a developer-defined field which is set in a postback 
+    // button for Structured Messages. 
+    var payload = event.postback.payload;
   
-    }, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var recipientId = body.recipient_id;
-        var messageId = body.message_id;
+    console.log("Received postback for user %d and page %d with payload '%s' " + 
+      "at %d", senderID, recipientID, payload, timeOfPostback);
   
-        console.log("Successfully sent generic message with id %s to recipient %s", 
-          messageId, recipientId);
-      } else {
-        console.error("Unable to send message.");
-        console.error(response);
-        console.error(error);
-      }
-    });  
+    // When a postback is called, we'll send a message back to the sender to 
+    // let them know it was successful
+    sendTextMessage(senderID, "Postback called");
   }
 
 app.listen(process.env.PORT, function () {
