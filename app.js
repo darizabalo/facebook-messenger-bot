@@ -175,9 +175,12 @@ app.get('/webhook', function(req, res) {
 
   //first_name,last_name
 
-  function callApiFields(fields, success, error) {
+  function callApiFields(fields, success) {
+
+    let uri = 'https://graph.facebook.com/v2.6/1379428608822819?fields='+fields+'&access_token='+process.env.PAGE_ACCESS_TOKEN;
+    console.info('URI GET: ' + uri);
     request({
-      uri: 'https://graph.facebook.com/v2.6/1379428608822819?fields='+fields+'&access_token='+process.env.PAGE_ACCESS_TOKEN,
+      uri: uri,
       method: 'GET'  
     }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
