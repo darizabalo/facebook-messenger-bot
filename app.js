@@ -172,13 +172,13 @@ app.get('/webhook', function(req, res) {
     });  
   }
   function receivedPostback(event) {
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfPostback = event.timestamp;
+    var senderID = JSON.stringify(event.sender);//.id;
+    var recipientID = JSON.stringify(event.recipient);//.id;
+    var timeOfPostback = JSON.stringify(event);//.timestamp;
   
     // The 'payload' param is a developer-defined field which is set in a postback 
     // button for Structured Messages. 
-    var payload = event.postback.payload;
+    var payload = JSON.stringify(event.postback);//.payload;
   
     console.log("Received postback for user %d and page %d with payload '%s' " + 
       "at %d", senderID, recipientID, payload, timeOfPostback);
