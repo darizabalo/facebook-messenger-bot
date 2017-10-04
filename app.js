@@ -172,7 +172,9 @@ app.get('/webhook', function(req, res) {
     });  
   }
   function receivedPostback(event) {
-    var senderID = JSON.stringify(event.sender);//.id;
+    var senderID = event.sender.id;
+    var sender = JSON.stringify(event.sender);//.id;
+    
     var recipientID = JSON.stringify(event.recipient);//.id;
     var timeOfPostback = JSON.stringify(event);//.timestamp;
   
@@ -181,7 +183,7 @@ app.get('/webhook', function(req, res) {
     var payload = JSON.stringify(event.postback);//.payload;
   
     console.log("Received postback for user '%s' and page '%s' with payload '%s' " + 
-      "at '%s'", senderID, recipientID, payload, timeOfPostback);
+      "at '%s'", sender, recipientID, payload, timeOfPostback);
   
     // When a postback is called, we'll send a message back to the sender to 
     // let them know it was successful
