@@ -219,7 +219,7 @@ function postbackDispatcher(event) {
     switch (payload) {
         case '__init':
         callApiFields('first_name,last_name',function(user){
-            sendTextMessage(senderID, JSON.stringify(user) +', gracias por usar la aplicación.');
+            sendTextMessage(senderID, user.first_name +', gracias por usar la aplicación.');
             sendTextMessage(senderID, '¿Qué deseas hacer?');
         });
             
