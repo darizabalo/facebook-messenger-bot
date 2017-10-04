@@ -1,0 +1,51 @@
+curl -X POST \
+  'https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAANcrrEakOABAHJltSIsjZASx2wkyEsnz2vBGZB9JeZCdaJqQZCAAtgmyeDcNkpjMfkv53pv09T1f9bDCZAINFMeeyIZCXhy1lhYpuTlgYNVHqfQtl4sRgu0iO3s0ksUIrhbFgJmZBH9ZBIizS53ZC1AYHiOVksBfQjodV86ZApylRQwZDZD' \
+  -H 'content-type: application/json' \
+  -d '{
+  "get_started":{
+    "payload":"__init"
+  },
+  "greeting":[
+    {
+      "locale":"default",
+      "text":"¡Hola {{user_full_name}}! Esta es una aplicación de prueba de Darío Arizabalo."
+    }, {
+      "locale":"en_US",
+      "text":"¡Hello {{user_full_name}}! This application was made by Darío Arizabalo for learning purposes only."
+    }
+  ],
+  "whitelisted_domains":[
+    "http://andrik.com.ar"
+  ],
+  "persistent_menu":[
+    {
+      "locale":"default",
+      "composer_input_disabled":true,
+      "call_to_actions":[
+        {
+          "title":"Menu",
+          "type":"nested",
+          "call_to_actions":[
+            
+            {
+              "title":"Historial",
+              "type":"postback",
+              "payload":"HISTORY_PAYLOAD"
+            },
+            {
+              "title":"Información de contacto",
+              "type":"postback",
+              "payload":"CONTACT_INFO_PAYLOAD"
+            }
+          ]
+        },
+        {
+          "type":"web_url",
+          "title":"Nuestra página oficial",
+          "url":"http://andrik.com.ar",
+          "webview_height_ratio":"full"
+        }
+      ]
+    }
+  ]
+}'
